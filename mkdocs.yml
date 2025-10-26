@@ -1,0 +1,127 @@
+site_name: Khóa học python căn bản
+site_url: https://fin68.vn/acadamy/python/basic
+
+theme:
+  name: material
+  language: vi
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.sections      # nhóm mục trong sidebar trái
+    - navigation.expand        # auto mở nhánh đang xem
+    - navigation.tracking
+    # - navigation.tabs        # tùy, nếu không muốn tabs thì bỏ
+    - search.suggest
+    - search.highlight
+    - navigation.footer
+    - header.autohide
+    - content.code.copy
+    - content.code.annotate    # hiển thị chú thích code dạng callouts
+  palette:
+    - scheme: slate            # mặc định dark giống ảnh
+      toggle:
+        icon: material/weather-sunny
+        name: Giao diện sáng
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Giao diện tối
+  logo: assets/logo.png
+  favicon: assets/favicon.webp
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [".."]
+          options:
+            docstring_style: numpy
+            separate_signature: true
+            merge_init_into_class: true
+            members_order: source
+            show_source: false
+            show_if_no_docstring: false
+            show_symbol_type_toc: true
+            show_root_heading: false
+            heading_level: 2
+            signature_crossrefs: true
+            extra:
+              prefer_stubdocstring: true
+  - git-revision-date-localized:
+      enable_creation_date: false
+      type: timeago
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 3
+      title: On this page        # nhãn giống ảnh
+    # LƯU Ý: KHÔNG dùng toc.integrate để giữ TOC ở sidebar phải
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.emoji
+  - pymdownx.caret
+  - pymdownx.tilde
+  - pymdownx.mark
+  - pymdownx.inlinehilite
+
+extra:
+  # Bỏ repo_url/edit_uri nếu chưa có repo để tránh hiện nút Edit/View
+  generator: false
+
+extra_css:
+  - assets/theme.css           # map màu theo Tailwind DS (tuỳ chọn)
+extra_javascript:
+  - assets/fin68-ui.js
+nav:
+  - Trang chủ: index.md
+
+  - Giới thiệu:
+      - Tổng quan khóa học: about/overview.md
+      - Điểm nổi bật (Why this course): about/highlights.md
+      - Đối tượng phù hợp: about/for-whom.md
+      - Kết quả đầu ra (Learning Outcomes): about/outcomes.md
+
+  - Chương trình học (Syllabus):
+      - Tổng quan syllabus: syllabus/index.md
+      - Buổi 1 – Python nền tảng cho tài chính: syllabus/session-01-basics.md
+      - Buổi 2 – Nạp & làm sạch dữ liệu chứng khoán: syllabus/session-02-data-ingest.md
+      - Buổi 3 – Phân tích EDA & trực quan hóa: syllabus/session-03-eda-viz.md
+      - Buổi 4 – Time Series & chỉ báo kỹ thuật: syllabus/session-04-timeseries-ta.md
+      - Buổi 5 – Danh mục Markowitz (mean–variance): syllabus/session-05-markowitz.md
+      - Buổi 6 – Backtest chiến lược (HPG MA, v.v.): syllabus/session-06-backtesting.md
+      - Buổi 7 – Báo cáo tài chính & tỷ số: syllabus/session-07-fs-ratios.md
+      - Buổi 8 – Mini-capstone & trình bày kết quả: syllabus/session-08-capstone.md
+      - Tài nguyên mẫu (Notebook/CSV): syllabus/resources.md
+
+  - Thực hành & Dữ liệu:
+      - Bộ dữ liệu sử dụng: labs/datasets.md
+      - Công cụ & môi trường (Python, VSCode): labs/tools-env.md
+      - Thiết lập Fin68 SDK: labs/fin68-setup.md
+
+  - Giảng viên: instructors/index.md
+
+  - Hình thức & Lịch học:
+      - Hình thức học (Online/Offline): schedule/format.md
+      - Lịch khai giảng & timeline: schedule/timeline.md
+
+  - Học phí & Đăng ký:
+      - Học phí & gói ưu đãi: enrollment/tuition.md
+      - Ưu đãi/Scholarship: enrollment/discounts.md
+      - Đăng ký ngay (QR/Link): enrollment/register.md
+
+  - Câu hỏi thường gặp (FAQ): faq.md
+  - Liên hệ: contact.md
+
+
