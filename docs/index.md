@@ -1,19 +1,20 @@
-
-
-
 # 🐍 Python for Finance  
 ### Ứng dụng trong Phân tích & Đầu tư Chứng khoán Việt Nam
 
-> Làm chủ Python, dữ liệu tài chính và chứng khoán với 8 buổi học  
-> Khóa học thực chiến, hướng dẫn bởi chuyên gia **Fin68**.
+> 🗓️ **Khai giảng dự kiến:** **10/11/2025**
+>
+> 💡 **Làm chủ Python, dữ liệu tài chính và tư duy đầu tư định lượng** chỉ sau **8 buổi học**  
+>
+> 👨‍🏫 **Khóa học thực chiến**, hướng dẫn bởi chuyên gia **Fin68**
 
 ---
 
 <div align="center">
-  <a href="#dang-ky-ngay" title="Đăng ký khóa học ngay">
-    <img src="assets/images/banner-course.png" alt="Banner khóa học – Python for Finance" width="800"/>
+  <a href="https://fin68.vn/register/python-for-finance" title="Đăng ký khóa học ngay">
+    <img src="assets/images/banner-course.png" alt="Banner khóa học – Python for Finance" width="80%"/>
   </a>
 </div>
+
 ---
 
 ## 🎯 Mục tiêu khóa học
@@ -25,15 +26,15 @@ Khóa học **Python for Finance** được thiết kế dành riêng cho:
 
 Sau khóa học, học viên sẽ có khả năng:
 
-- Xử lý dữ liệu tài chính thực tế bằng **`Pandas`, `NumPy`, `Fin68 SDK`**.  
+- Xử lý dữ liệu tài chính thực tế bằng **Pandas, NumPy, Fin68 SDK**.  
 - Phân tích và trực quan hóa dữ liệu chứng khoán.  
-- Xây dựng **mô hình `tối ưu danh mục Markowitz`** và xử lý tự động chuỗi dữ liệu **báo cáo tài chính doanh nghiệp Việt Nam**.
+- Xây dựng **mô hình tối ưu danh mục Markowitz**, **backtest chiến lược giao dịch** và **phân tích báo cáo tài chính doanh nghiệp Việt Nam**.
 
 ---
 
 <div align="center">
-  <a href="#dang-ky-ngay" title="Đăng ký khóa học ngay">
-    <img src="assets/images/markowitz.png" alt="Banner khóa học – Python for Finance" width="800"/>
+  <a href="https://fin68.vn/register/python-for-finance" title="Đăng ký khóa học ngay">
+    <img src="assets/images/efficient-frontier.png" alt="Banner khóa học – Python for Finance" width="80%"/>
   </a>
 </div>
 
@@ -48,13 +49,68 @@ Sau khóa học, học viên sẽ có khả năng:
 
 ---
 
+## 📘 Lộ trình 8 buổi học
+
+<div align="center">
+  <table style="border-collapse: collapse; width: 100%; text-align: center;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid var(--md-default-border-color); padding: 8px;">Buổi</th>
+        <th style="border: 1px solid var(--md-default-border-color); padding: 8px;">Chủ đề chính</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">1</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Python cơ bản cho tài chính</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">2</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Làm sạch dữ liệu chứng khoán</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">3</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Phân tích &amp; trực quan hóa</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">4</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Time Series &amp; kỹ thuật</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">5</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Lý thuyết Markowitz</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">6</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Backtest chiến lược</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">7</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Báo cáo tài chính</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">8</td>
+        <td style="border: 1px solid var(--md-default-border-color); padding: 8px;">Mini-capstone</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+---
+
+---
+
 ## 🧰 Công cụ & Môi trường học
-- **Python 3.10+**, **VSCode**, **Jupyter Notebook**
+
+- **Python 3.12+**, **VSCode**, **Jupyter Notebook**
 - Thư viện: `pandas`, `numpy`, `matplotlib`, `scipy`, `fin68`
 - Cài đặt nhanh:  
-  ```bash
+
+```python
+
   pip install fin68
-````
+
+```
 
 *(Tự động cấu hình môi trường và truy cập dữ liệu tài chính Việt Nam.)*
 
@@ -62,13 +118,13 @@ Sau khóa học, học viên sẽ có khả năng:
 
 ## 👨‍🏫 Giảng viên
 
-> **Hoàng Mạnh Hùng – Financial Data Analyst tại Fin68 và Trưởng bộ phận phát triển sản phẩm Công ty CP chứng khoán Rồng Việt**
->
-> * 4+ năm kinh nghiệm trong lĩnh vực Data Analyst & Quantitative Finance
-> * Giảng viên thỉnh giảng các khóa Python for Finance và Quant Research
+> **Hoàng Mạnh Hùng – Financial Data Analyst tại Fin68 và trưởng bộ phận phát triển sản phẩm tại Công ty Cổ phần chứng khoán Rồng VIệt**
 
-![Giảng viên – Hoàng Mạnh Hùng](images/instructor.jpg)
-*Ảnh minh họa: Giảng viên hướng dẫn buổi thực hành về danh mục đầu tư.*
+> * Thạc sĩ chuyên ngành Tài chính doanh nghiệp - Đại học Kinh tế TP.Hồ Chí Minh (UEH)
+
+> * 4+ năm kinh nghiệm trong lĩnh vực Data Analyst & Quantitative Finance
+
+> * Giảng viên thỉnh giảng các khóa Python for Finance và Quant Research
 
 ---
 
@@ -83,22 +139,20 @@ Sau khóa học, học viên sẽ có khả năng:
 
 ## 💸 Học phí & Ưu đãi
 
-* **Học phí gốc:** 3.500.000 VND
+* **Học phí gốc:** 2.500.000 VND
 * **Ưu đãi đăng ký sớm:** -30% (trước ngày khai giảng)
 * **Sinh viên & học viên Fin68:** -10%
 
-
 <div align="center">
-  <a href="#dang-ky-ngay" title="Đăng ký khóa học ngay">
-    <img src="assets/images/discount-banner.png" alt="Banner khóa học – Python for Finance" width="800"/>
+  <a href="https://fin68.vn/register/python-for-finance" title="Đăng ký khóa học ngay">
+    <img src="assets/images/discount-banner.png" alt="Banner khóa học – Python for Finance" width="80%"/>
   </a>
 </div>
-
 ---
 
 ## 🧾 Cách đăng ký
 
-> ✳️ **Bước 1:** Truy cập trang đăng ký
+> ✳️ **Bước 1:** Truy cập trang đăng ký 🔗 [https://fin68.vn/register/python-for-finance](https://fin68.vn/register/python-for-finance)
 
 > ✳️ **Bước 2:** Điền thông tin cá nhân
 
@@ -112,16 +166,15 @@ Sau khóa học, học viên sẽ có khả năng:
 
 > 🌐 **Website:** [https://fin68.vn](https://fin68.vn)
 
-> 📱 **Zalo:** 035 905 2501
+> 📱 **Zalo:** 035.905.2501
 
-> 💬 **Fanpage:** [facebook.com/fin68.vn](https://facebook.com/fin68.vn)
+> 💬 **Fanpage:** [www.facebook.com/fin68vna](https://www.facebook.com/fin68vna)
 
 ---
 
 <div align="center">
 
-🎓 **Fin68 – Python for Finance**
-
+🎓 <b>Fin68 – Python for Finance</b>
 Từ dữ liệu → Phân tích → Quyết định đầu tư thông minh 💡
 
 </div>
