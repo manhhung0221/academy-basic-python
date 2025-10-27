@@ -43,12 +43,7 @@ jobs:
           if [ -n "${{ github.event.inputs.target_subpath }}" ]; then
             SUBPATH="${{ github.event.inputs.target_subpath }}"
           else
-            PY='import yaml,urllib.parse,pathlib
-p=pathlib.Path("mkdocs.yml")
-data=yaml.safe_load(p.read_text(encoding="utf-8"))
-url=(data or {}).get("site_url","").strip()
-print(urllib.parse.urlparse(url).path.strip("/"))'
-            SUBPATH="$(python3 -c "$PY")"
+            SUBPATH="$(python3 -c 'import yaml,urllib.parse,io; d=yaml.safe_load(open("mkdocs.yml","r",encoding="utf-8")); u=(d or {}).get("site_url","").strip(); print(urllib.parse.urlparse(u).path.strip("/"))')"
           fi
 
           if [ -z "$SUBPATH" ]; then
@@ -90,9 +85,4 @@ print(urllib.parse.urlparse(url).path.strip("/"))'
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
             site/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:"${{ steps.target.outputs.target }}"/
 
-      # Optional: reload Nginx if you set a command in secrets
-      - name: Reload web server (optional)
-        if: ${{ secrets.VPS_RELOAD_CMD != '' }}
-        run: |
-          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "${{ secrets.VPS_RELOAD_CMD }}"
+      # Optional reload (chỉ chạy nếu bạn set se
