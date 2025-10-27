@@ -1,5 +1,5 @@
 site_name: Khóa học python căn bản
-site_url: https://fin68.vn/acadamy/python/basic
+site_url: https://fin68.vn/academy/python/basic
 
 theme:
   name: material
@@ -85,43 +85,9 @@ extra_css:
 extra_javascript:
   - assets/fin68-ui.js
 nav:
-  - Trang chủ: index.md
-
-  - Giới thiệu:
-      - Tổng quan khóa học: about/overview.md
-      - Điểm nổi bật (Why this course): about/highlights.md
-      - Đối tượng phù hợp: about/for-whom.md
-      - Kết quả đầu ra (Learning Outcomes): about/outcomes.md
-
-  - Chương trình học (Syllabus):
-      - Tổng quan syllabus: syllabus/index.md
-      - Buổi 1 – Python nền tảng cho tài chính: syllabus/session-01-basics.md
-      - Buổi 2 – Nạp & làm sạch dữ liệu chứng khoán: syllabus/session-02-data-ingest.md
-      - Buổi 3 – Phân tích EDA & trực quan hóa: syllabus/session-03-eda-viz.md
-      - Buổi 4 – Time Series & chỉ báo kỹ thuật: syllabus/session-04-timeseries-ta.md
-      - Buổi 5 – Danh mục Markowitz (mean–variance): syllabus/session-05-markowitz.md
-      - Buổi 6 – Backtest chiến lược (HPG MA, v.v.): syllabus/session-06-backtesting.md
-      - Buổi 7 – Báo cáo tài chính & tỷ số: syllabus/session-07-fs-ratios.md
-      - Buổi 8 – Mini-capstone & trình bày kết quả: syllabus/session-08-capstone.md
-      - Tài nguyên mẫu (Notebook/CSV): syllabus/resources.md
-
-  - Thực hành & Dữ liệu:
-      - Bộ dữ liệu sử dụng: labs/datasets.md
-      - Công cụ & môi trường (Python, VSCode): labs/tools-env.md
-      - Thiết lập Fin68 SDK: labs/fin68-setup.md
-
-  - Giảng viên: instructors/index.md
-
-  - Hình thức & Lịch học:
-      - Hình thức học (Online/Offline): schedule/format.md
-      - Lịch khai giảng & timeline: schedule/timeline.md
-
-  - Học phí & Đăng ký:
-      - Học phí & gói ưu đãi: enrollment/tuition.md
-      - Ưu đãi/Scholarship: enrollment/discounts.md
-      - Đăng ký ngay (QR/Link): enrollment/register.md
-
+  - Giới thiệu: index.md
+  - Syllabus: syllabus/index.md
   - Câu hỏi thường gặp (FAQ): faq.md
-  - Liên hệ: contact.md
+
 
 
