@@ -1,0 +1,103 @@
+name: Deploy MkDocs (auto-detect target)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'site/**'                      # chỉ chạy khi site/ đã build thay đổi
+      - 'mkdocs.yml'                   # đổi site_url thì tự deploy lại
+      - '.github/workflows/deploy-mkdocs.yml'
+  workflow_dispatch:
+    inputs:
+      target_subpath:
+        description: "Ghi đè subpath deploy (vd: academy/python/basic). Để trống sẽ lấy từ mkdocs.yml: site_url."
+        required: false
+        default: ""
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify prebuilt site exists
+        run: |
+          test -f site/index.html || (echo "❌ Missing prebuilt site/. Run 'mkdocs build' locally and commit site/." && exit 1)
+
+      # Parse mkdocs.yml để lấy site_url -> subpath "/academy/python/basic"
+      - name: Detect deploy subpath from mkdocs.yml (if not overridden)
+        id: detect
+        shell: bash
+        run: |
+          # Nếu có input thủ công thì dùng luôn:
+          if [ -n "${{ github.event.inputs.target_subpath }}" ]; then
+            SUBPATH="${{ github.event.inputs.target_subpath }}"
+          else
+            # Đọc site_url trong mkdocs.yml bằng python (tránh cài yq)
+            PYOUT=$(python - << 'PY'
+import sys, yaml, pathlib, urllib.parse
+p = pathlib.Path("mkdocs.yml")
+data = yaml.safe_load(p.read_text(encoding="utf-8"))
+url = (data or {}).get("site_url","").strip()
+# Lấy path từ URL, bỏ slash đầu/cuối
+path = urllib.parse.urlparse(url).path.strip("/")
+print(path)
+PY
+)
+            SUBPATH="$PYOUT"
+          fi
+
+          # Chuẩn hóa: nếu trống -> deploy vào root của VPS_TARGET_ROOT
+          if [ -z "$SUBPATH" ]; then
+            echo "subpath=" >> $GITHUB_OUTPUT
+            echo "ℹ️ site_url không có path -> sẽ deploy vào ROOT: ${{ secrets.VPS_TARGET_ROOT }}"
+          else
+            echo "subpath=$SUBPATH" >> $GITHUB_OUTPUT
+            echo "ℹ️ Xác định subpath: $SUBPATH"
+          fi
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Compute TARGET dir on VPS
+        id: target
+        run: |
+          ROOT="${{ secrets.VPS_TARGET_ROOT }}"
+          SUB="${{ steps.detect.outputs.subpath }}"
+          if [ -z "$SUB" ]; then
+            TARGET="$ROOT"
+          else
+            TARGET="$ROOT/$SUB"
+          fi
+          echo "target=$TARGET" >> $GITHUB_OUTPUT
+          echo "📁 TARGET = $TARGET"
+
+      - name: Ensure target exists
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir -p '${{ steps.target.outputs.target }}'"
+
+      # Rsync & --delete để luôn đồng bộ
+      - name: Rsync site/ to VPS
+        run: |
+          rsync -az --delete --omit-dir-times --no-perms --no-owner --no-group \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+            site/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:"${{ steps.target.outputs.target }}"/
+
+      # (Tuỳ chọn) Reload Nginx nếu bạn serve qua Nginx
+      # - name: Reload Nginx
+      #   run: |
+      #     ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+      #       ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo systemctl reload nginx"

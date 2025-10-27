@@ -1,0 +1,506 @@
+/* ============================================================
+   Fin68 — Material for MkDocs custom theme (v2.1)
+   - Dark mode contrast tuned (text, code, borders)
+   - md-main background synced with md-main__inner
+   - Left nav sticky, right TOC distinct bg (kept)
+   ============================================================ */
+
+/* -------------------------
+   COLOR SCHEMES
+------------------------- */
+
+/* LIGHT (default) */
+:root {
+  --fin-primary:  #5D69F4;
+  --fin-secondary:#00998B;
+  --fin-danger:   #EF4444;
+  --fin-accent:   #4f9bd9;
+  --fin-bg-header:#1B232D;
+
+  /* Neutrals */
+  --fin-n0:  #FFFFFF;
+  --fin-n10: #FAFAFB;
+  --fin-n20: #F5F6F7;
+  --fin-n30: #EBECEF;
+  --fin-n40: #DFE0E4;
+  --fin-n50: #C1C4CC;
+  --fin-n60: #B2B6BF;
+  --fin-n70: #A6AAB5;
+  --fin-n80: #979CA8;
+  --fin-n90: #888E9C;
+  --fin-n100:#798090;
+  --fin-n200:#6A7283;
+  --fin-n300:#5B6477;
+  --fin-n400:#4F586D;
+  --fin-n500:#404A60;
+  --fin-n600:#343E56;
+  --fin-n700:#222E48;
+  --fin-n800:#13203B;
+  --fin-n900:#0B1323;
+
+  /* Theming tokens (Material) */
+  --md-primary-fg-color:            var(--fin-primary);
+  --md-primary-fg-color--light:     color-mix(in oklab, var(--fin-primary), white 20%);
+  --md-primary-fg-color--dark:      color-mix(in oklab, var(--fin-primary), black 20%);
+  --md-accent-fg-color:             var(--fin-secondary);
+
+  --md-default-bg-color:            var(--fin-bg-header);
+  --md-default-fg-color:            var(--fin-n600);
+  --md-default-fg-color--light:     var(--fin-n400);
+  --md-default-fg-color--lighter:   var(--fin-n300);
+  --md-default-fg-color--lightest:  var(--fin-n200);
+
+  --md-code-bg-color:               var(--fin-n20);
+  --md-code-fg-color:               var(--fin-n700);
+
+  --md-typeset-a-color:             var(--fin-primary);
+  --md-footer-bg-color:             var(--fin-n10);
+  --md-footer-fg-color:             var(--fin-n500);
+
+  --md-default-border-color:        var(--fin-n40);
+
+  /* Shared page main background (light) */
+  --fin-main-bg:                    var(--fin-n10);
+}
+
+/* DARK */
+[data-md-color-scheme="slate"] {
+  --fin-primary:   #5D69F4;
+  --fin-secondary: #00A195;
+  --fin-danger:    #E04F4F;
+
+  /* Txt & surfaces tuned for contrast (AA+) */
+  --md-primary-fg-color:            var(--fin-primary);
+  --md-accent-fg-color:             var(--fin-secondary);
+
+  /* Dark neutrals (slightly lifted from pure black to avoid banding) */
+  --fin-dark-0:   #0B1323;  /* base page */
+  --fin-dark-1:   #0F1628;  /* main surface */
+  --fin-dark-2:   #141C30;  /* cards / code */
+  --fin-dark-3:   #1C2438;  /* subtle separators */
+
+  --md-default-bg-color:            var(--fin-dark-0);
+  --md-default-fg-color:            #E8EBF1;   /* body text */
+  --md-default-fg-color--light:     #B8BECC;
+  --md-default-fg-color--lighter:   #9AA2B1;
+  --md-default-fg-color--lightest:  #8891A1;
+
+  --md-code-bg-color:               var(--fin-dark-2);
+  --md-code-fg-color:               #E8EBF1;
+
+  --md-typeset-a-color:             var(--fin-primary);
+  --md-footer-bg-color:             var(--fin-dark-0);
+  --md-footer-fg-color:             #B8BECC;
+
+  --md-default-border-color:        #2A3447;
+
+  /* Shared page main background (dark) */
+  --fin-main-bg:                    var(--fin-dark-1);
+}
+
+/* -------------------------
+   LAYOUT WIDTHS
+------------------------- */
+.md-grid {
+  max-width: 1200px;
+  padding-inline: 2rem;
+}
+@media (min-width: 576px)  { .md-grid { max-width: 576px;  } }
+@media (min-width: 768px)  { .md-grid { max-width: 768px;  } }
+@media (min-width: 992px)  { .md-grid { max-width: 992px;  } }
+@media (min-width: 1200px) { .md-grid { max-width: 1200px; } }
+@media (min-width: 1400px) { .md-grid { max-width: 1400px; } }
+@media (min-width: 1600px) { .md-grid { max-width: 1600px; } }
+@media (min-width: 1800px) { .md-grid { max-width: 1800px; } }
+
+/* -------------------------
+   HEADER
+------------------------- */
+.md-header {
+  background-color: var(--fin-bg-header);
+  color: var(--fin-n10);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.md-header--shadow { box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.md-header__button,
+.md-header__title,
+.md-header__source { color: var(--fin-n10) !important; }
+.md-header__button:hover,
+.md-header__title:hover { color: var(--fin-accent) !important; }
+
+/* -------------------------
+   MAIN CONTENT
+------------------------- */
+/* ✅ Đồng bộ nền md-main & md-main__inner qua biến --fin-main-bg */
+.md-main { background: var(--fin-main-bg); }
+
+.md-main__inner {
+  background: var(--fin-main-bg);
+  border-left: none;
+  border-radius: 0;
+  padding: .25rem .5rem;
+  color: var(--fin-n900);
+}
+[data-md-color-scheme="slate"] .md-main__inner {
+  color: var(--md-default-fg-color);
+}
+
+/* -------------------------
+   SIDEBARS
+------------------------- */
+/* LEFT NAV: cố định (sticky), nền đồng bộ body */
+@media (min-width: 960px) {
+  .md-sidebar--primary {
+    position: sticky;
+    top: var(--md-header-height, 64px);
+    height: calc(100vh - var(--md-header-height, 64px));
+    overflow: auto;
+    background-color: var(--fin-n10);
+  }
+}
+/* RIGHT TOC: khác tone nhẹ để phân vùng (giữ như cũ) */
+@media (min-width: 960px) {
+  .md-sidebar--secondary {
+    position: sticky;
+    top: var(--md-header-height, 64px);
+    height: calc(100vh - var(--md-header-height, 64px));
+    overflow: auto;
+    background-color: color-mix(in oklab, var(--fin-n10), var(--fin-primary) 6%);
+  }
+}
+[data-md-color-scheme="slate"] .md-sidebar--primary { background-color: #121A2B; }
+[data-md-color-scheme="slate"] .md-sidebar--secondary {
+  background-color: color-mix(in oklab, #121A2B, var(--fin-accent) 8%);
+}
+
+/* -------------------------
+   NAV LINKS (uniform paddings)
+------------------------- */
+.md-nav__title,
+.md-nav__link {
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: 8px;
+  color: var(--md-default-fg-color);
+}
+.md-nav__link {
+  display: block;
+  transition: background-color 0.2s ease, color 0.2s ease, padding-left .2s ease;
+}
+.md-nav__link:hover {
+  background-color: color-mix(in oklab, var(--fin-primary), transparent 93%);
+  color: var(--fin-primary);
+}
+.md-nav__link--active,
+.md-nav__link--active:hover {
+  background-color: transparent;
+  color: color-mix(in oklab, var(--fin-primary), white 15%) !important;
+  font-weight: 600;
+  padding-left: 0.65rem;
+}
+.md-nav__list { padding: .25rem; }
+
+/* Dark nav hover/active tune for clarity */
+[data-md-color-scheme="slate"] .md-nav__link:hover {
+  background-color: color-mix(in oklab, var(--fin-accent), transparent 88%);
+  color: var(--fin-accent);
+}
+[data-md-color-scheme="slate"] .md-nav__link--active,
+[data-md-color-scheme="slate"] .md-nav__link--active:hover {
+  background-color: transparent;
+  color: color-mix(in oklab, var(--fin-accent), white 10%) !important;
+}
+/* =======================
+   NAV TITLE — unify look
+======================= */
+.md-nav__title {
+  /* đồng bộ spacing + radius với nav items */
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: 8px;
+
+  /* màu chữ và nền mặc định */
+  background-color: transparent;
+  color: var(--md-default-fg-color);
+  font-weight: 600;
+  line-height: 1.35;
+  display: block;
+}
+
+/* hover/active đồng bộ tone */
+.md-nav__title:hover {
+  background-color: color-mix(in oklab, var(--fin-primary), transparent 93%);
+  color: var(--fin-primary);
+}
+
+/* khi section đang active (Material thêm class ở item cha) */
+.md-nav__item--active > .md-nav__title,
+.md-nav__item--active > .md-nav__title:hover {
+  background-color: transparent;
+  color: inherit;
+}
+
+/* Dark scheme tinh chỉnh */
+[data-md-color-scheme="slate"] .md-nav__title:hover {
+  background-color: color-mix(in oklab, var(--fin-accent), transparent 88%);
+  color: var(--fin-accent);
+}
+[data-md-color-scheme="slate"] .md-nav__item--active > .md-nav__title {
+  background-color: transparent;
+  color: inherit;
+}
+
+/* ==========================================
+   COLLAPSIBLE LABELS — spacing & alignment
+   (label.md-nav__link behaves like <a>)
+========================================== */
+label.md-nav__link {
+  /* đồng bộ spacing */
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: 8px;
+  color: var(--md-default-fg-color);
+
+  /* layout chuẩn */
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 36px;          /* chiều cao tối thiểu giống item */
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+/* nội dung chữ co giãn đúng */
+label.md-nav__link .md-ellipsis {
+  flex: 1 1 auto;
+  min-width: 0;              /* tránh tràn khi tên dài */
+}
+
+/* icon nhóm canh giữa và không xô đẩy text */
+label.md-nav__link .md-nav__icon.md-icon {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  opacity: .9;
+}
+
+/* hover/active đồng bộ anchor */
+label.md-nav__link:hover {
+  background-color: color-mix(in oklab, var(--fin-primary), transparent 93%);
+  color: var(--fin-primary);
+}
+label.md-nav__link.md-nav__link--active,
+.md-nav__item--active > label.md-nav__link {
+  background-color: transparent;
+  color: color-mix(in oklab, var(--fin-primary), white 15%) !important;
+  font-weight: 600;
+  padding-left: 0.65rem;     /* hiệu ứng subtle như anchor */
+}
+
+/* Dark scheme cho label */
+[data-md-color-scheme="slate"] label.md-nav__link:hover {
+  background-color: color-mix(in oklab, var(--fin-accent), transparent 88%);
+  color: var(--fin-accent);
+}
+[data-md-color-scheme="slate"] label.md-nav__link.md-nav__link--active,
+[data-md-color-scheme="slate"] .md-nav__item--active > label.md-nav__link {
+  background-color: transparent;
+  color: color-mix(in oklab, var(--fin-accent), white 10%) !important;
+}
+
+/* đảm bảo mọi nav link (a hoặc label) dùng cùng line-height/height */
+.md-nav__link {
+  min-height: 36px;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.md-nav__link .md-ellipsis { flex: 1 1 auto; min-width: 0; }
+.md-nav__link .md-nav__icon.md-icon { flex: 0 0 auto; width: 1rem; height: 1rem; opacity: .9; }
+
+/* -------------------------
+   CODE, TABLES & BORDERS
+------------------------- */
+.md-typeset table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+  border: 1px solid var(--md-default-border-color);
+  border-radius: .5rem;
+}
+.md-typeset pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.md-clipboard { opacity: .9; }
+.md-content__button { margin-top: .2rem; }
+
+/* Dark border softening on cards/content (optional) */
+[data-md-color-scheme="slate"] .md-typeset table,
+[data-md-color-scheme="slate"] .md-typeset .admonition {
+  border-color: #2A3447;
+}
+
+/* -------------------------
+   BADGES
+------------------------- */
+.badge {
+  display: inline-block;
+  padding: .125rem .5rem;
+  font-size: .75rem;
+  border-radius: .375rem;
+  background: var(--fin-n20);
+  color: var(--fin-n700);
+}
+[data-md-color-scheme="slate"] .badge {
+  background: var(--fin-dark-2);
+  color: #E8EBF1;
+}
+
+/* -------------------------
+   LOGO
+------------------------- */
+.md-header__button.md-logo img,
+.md-header__title .md-logo img {
+  height: 48px;
+  width: auto;
+}
+[data-md-color-scheme="slate"] .md-header__button.md-logo img,
+[data-md-color-scheme="slate"] .md-header__title .md-logo img {
+  filter: brightness(1.08) contrast(1.04);
+}
+
+/* -------------------------
+   FADE PAGE TRANSITION
+------------------------- */
+.md-content { opacity: 1; }
+.md-content.fade-enter { opacity: 0; }
+.md-content.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity .25s ease;
+}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .md-content.fade-enter.fade-enter-active { transition: none; }
+}
+/* ==========================
+   CODE ELEMENTS — Highlight
+   Fin68 custom tone
+========================== */
+
+/* Inline code (e.g., `symbol`) */
+.md-typeset code {
+  color: var(--fin-primary);
+  background-color: color-mix(in oklab, var(--fin-primary), white 92%);
+  border-radius: 4px;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+  font-weight: 500;
+  white-space: break-spaces;
+  word-break: break-word;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover subtle glow */
+.md-typeset code:hover {
+  background-color: color-mix(in oklab, var(--fin-primary), white 85%);
+}
+
+/* Dark mode — invert tone for readability */
+[data-md-color-scheme="slate"] .md-typeset code {
+  color: var(--fin-primary);
+  background-color: color-mix(in oklab, var(--fin-primary), black 75%);
+}
+[data-md-color-scheme="slate"] .md-typeset code:hover {
+  background-color: color-mix(in oklab, var(--fin-primary), black 65%);
+}
+
+/* ===========================================
+   CODE BLOCK — Compact Card Style (H2 fix)
+   Áp cho .md-typeset pre / .highlight
+=========================================== */
+
+/* ===== RESET mọi style khối bên ngoài để tránh lồng ===== */
+.md-typeset pre {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* một số theme bọc bằng .highlighttable khi có line numbers */
+.md-typeset .highlight,
+.md-typeset .highlighttable {
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative; /* để đặt copy button */
+}
+
+/* ===== CHỈ style lớp pre bên trong highlight ===== */
+.md-typeset .highlight > pre,
+.md-typeset .highlighttable > tbody > tr > td.code > .highlight > pre {
+  background: color-mix(in oklab, var(--fin-primary), white 96%);
+  border: 1px solid color-mix(in oklab, var(--fin-primary), transparent 85%);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(16,24,40,.05);
+  padding: 1rem 1.25rem;
+  overflow: auto;
+  color: var(--md-code-fg-color);
+}
+
+/* Thanh nhấn trái */
+.md-typeset .highlight > pre::before,
+.md-typeset .highlighttable > tbody > tr > td.code > .highlight > pre::before {
+  content: "";
+  position: absolute; inset: 0 auto 0 0; width: 3px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--fin-primary), transparent 10%),
+    color-mix(in oklab, var(--fin-primary), transparent 25%)
+  );
+  border-top-left-radius: 12px; border-bottom-left-radius: 12px;
+  opacity: .9; pointer-events: none;
+}
+
+/* Copy button đúng vị trí */
+.md-content__button, .md-clipboard {
+  top: .5rem !important; right: .5rem !important; opacity: .85;
+}
+.md-clipboard:hover { opacity: 1; }
+
+/* Hover nổi nhẹ */
+.md-typeset .highlight > pre:hover,
+.md-typeset .highlighttable > tbody > tr > td.code > .highlight > pre:hover {
+  box-shadow: 0 4px 10px rgba(16,24,40,.07);
+  border-color: color-mix(in oklab, var(--fin-primary), transparent 75%);
+}
+
+/* ===== Dark mode ===== */
+[data-md-color-scheme="slate"] .md-typeset .highlight > pre,
+[data-md-color-scheme="slate"] .md-typeset .highlighttable > tbody > tr > td.code > .highlight > pre {
+  background: color-mix(in oklab, var(--fin-primary), black 86%);
+  border-color: #2A3447;
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  color: #E8EBF1;
+}
+[data-md-color-scheme="slate"] .md-typeset .highlight > pre::before,
+[data-md-color-scheme="slate"] .md-typeset .highlighttable > tbody > tr > td.code > .highlight > pre::before {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--fin-accent), transparent 10%),
+    color-mix(in oklab, var(--fin-accent), transparent 35%)
+  );
+}
+
+/* Responsive font-size */
+@media (max-width: 640px){
+  .md-typeset .highlight > pre,
+  .md-typeset .highlighttable > tbody > tr > td.code > .highlight > pre {
+    font-size: .88rem;
+  }
+}
