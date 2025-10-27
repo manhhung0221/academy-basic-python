@@ -4,8 +4,8 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'site/**'                      # chỉ chạy khi site/ đã build thay đổi
-      - 'mkdocs.yml'                   # đổi site_url thì tự deploy lại
+      - 'site/**'
+      - 'mkdocs.yml'
       - '.github/workflows/deploy-mkdocs.yml'
   workflow_dispatch:
     inputs:
@@ -21,7 +21,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,38 +29,34 @@ jobs:
 
       - name: Verify prebuilt site exists
         run: |
-          test -f site/index.html || (echo "❌ Missing prebuilt site/. Run 'mkdocs build' locally and commit site/." && exit 1)
+          test -f site/index.html || (echo "Missing prebuilt site/. Run 'mkdocs build' locally and commit site/." && exit 1)
 
-      # Parse mkdocs.yml để lấy site_url -> subpath "/academy/python/basic"
+      - name: Setup Python deps for parsing mkdocs.yml
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pyyaml
+
       - name: Detect deploy subpath from mkdocs.yml (if not overridden)
         id: detect
         shell: bash
         run: |
-          # Nếu có input thủ công thì dùng luôn:
           if [ -n "${{ github.event.inputs.target_subpath }}" ]; then
             SUBPATH="${{ github.event.inputs.target_subpath }}"
           else
-            # Đọc site_url trong mkdocs.yml bằng python (tránh cài yq)
-            PYOUT=$(python - << 'PY'
-import sys, yaml, pathlib, urllib.parse
-p = pathlib.Path("mkdocs.yml")
-data = yaml.safe_load(p.read_text(encoding="utf-8"))
-url = (data or {}).get("site_url","").strip()
-# Lấy path từ URL, bỏ slash đầu/cuối
-path = urllib.parse.urlparse(url).path.strip("/")
-print(path)
-PY
-)
-            SUBPATH="$PYOUT"
+            PY='import yaml,urllib.parse,pathlib
+p=pathlib.Path("mkdocs.yml")
+data=yaml.safe_load(p.read_text(encoding="utf-8"))
+url=(data or {}).get("site_url","").strip()
+print(urllib.parse.urlparse(url).path.strip("/"))'
+            SUBPATH="$(python3 -c "$PY")"
           fi
 
-          # Chuẩn hóa: nếu trống -> deploy vào root của VPS_TARGET_ROOT
           if [ -z "$SUBPATH" ]; then
-            echo "subpath=" >> $GITHUB_OUTPUT
-            echo "ℹ️ site_url không có path -> sẽ deploy vào ROOT: ${{ secrets.VPS_TARGET_ROOT }}"
+            echo "subpath=" >> "$GITHUB_OUTPUT"
+            echo "site_url has no path -> deploy to ROOT of VPS_TARGET_ROOT"
           else
-            echo "subpath=$SUBPATH" >> $GITHUB_OUTPUT
-            echo "ℹ️ Xác định subpath: $SUBPATH"
+            echo "subpath=$SUBPATH" >> "$GITHUB_OUTPUT"
+            echo "Detected subpath: $SUBPATH"
           fi
 
       - name: Setup SSH
@@ -81,23 +76,23 @@ PY
           else
             TARGET="$ROOT/$SUB"
           fi
-          echo "target=$TARGET" >> $GITHUB_OUTPUT
-          echo "📁 TARGET = $TARGET"
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "TARGET = $TARGET"
 
       - name: Ensure target exists
         run: |
           ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
             ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir -p '${{ steps.target.outputs.target }}'"
 
-      # Rsync & --delete để luôn đồng bộ
       - name: Rsync site/ to VPS
         run: |
           rsync -az --delete --omit-dir-times --no-perms --no-owner --no-group \
             -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
             site/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:"${{ steps.target.outputs.target }}"/
 
-      # (Tuỳ chọn) Reload Nginx nếu bạn serve qua Nginx
-      # - name: Reload Nginx
-      #   run: |
-      #     ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
-      #       ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "sudo systemctl reload nginx"
+      # Optional: reload Nginx if you set a command in secrets
+      - name: Reload web server (optional)
+        if: ${{ secrets.VPS_RELOAD_CMD != '' }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "${{ secrets.VPS_RELOAD_CMD }}"
