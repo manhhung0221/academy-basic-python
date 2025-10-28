@@ -1,0 +1,88 @@
+name: Deploy MkDocs (auto-detect target)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'site/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/deploy-mkdocs.yml'
+  workflow_dispatch:
+    inputs:
+      target_subpath:
+        description: "Ghi đè subpath deploy (vd: academy/python/basic). Để trống sẽ lấy từ mkdocs.yml: site_url."
+        required: false
+        default: ""
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify prebuilt site exists
+        run: |
+          test -f site/index.html || (echo "Missing prebuilt site/. Run 'mkdocs build' locally and commit site/." && exit 1)
+
+      - name: Setup Python deps for parsing mkdocs.yml
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pyyaml
+
+      - name: Detect deploy subpath from mkdocs.yml (if not overridden)
+        id: detect
+        shell: bash
+        run: |
+          if [ -n "${{ github.event.inputs.target_subpath }}" ]; then
+            SUBPATH="${{ github.event.inputs.target_subpath }}"
+          else
+            SUBPATH="$(python3 -c 'import yaml,urllib.parse,io; d=yaml.safe_load(open("mkdocs.yml","r",encoding="utf-8")); u=(d or {}).get("site_url","").strip(); print(urllib.parse.urlparse(u).path.strip("/"))')"
+          fi
+
+          if [ -z "$SUBPATH" ]; then
+            echo "subpath=" >> "$GITHUB_OUTPUT"
+            echo "site_url has no path -> deploy to ROOT of VPS_TARGET_ROOT"
+          else
+            echo "subpath=$SUBPATH" >> "$GITHUB_OUTPUT"
+            echo "Detected subpath: $SUBPATH"
+          fi
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Compute TARGET dir on VPS
+        id: target
+        run: |
+          ROOT="${{ secrets.VPS_TARGET_ROOT }}"
+          SUB="${{ steps.detect.outputs.subpath }}"
+          if [ -z "$SUB" ]; then
+            TARGET="$ROOT"
+          else
+            TARGET="$ROOT/$SUB"
+          fi
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "TARGET = $TARGET"
+
+      - name: Ensure target exists
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "mkdir -p '${{ steps.target.outputs.target }}'"
+
+      - name: Rsync site/ to VPS
+        run: |
+          rsync -az --delete --omit-dir-times --no-perms --no-owner --no-group \
+            -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+            site/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:"${{ steps.target.outputs.target }}"/
+
+      # Optional reload (chỉ chạy nếu bạn set se

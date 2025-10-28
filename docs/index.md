@@ -43,7 +43,7 @@ Sau khóa học, học viên sẽ có khả năng:
 ## 💡 Điểm nổi bật của khóa học
 ✅ Ứng dụng **dữ liệu chứng khoán Việt Nam thực tế** (HOSE, HNX, UPCoM).  
 ✅ 100% **thực hành trên Notebook & Visual Studio Code**.  
-✅ Hướng dẫn bởi **chuyên gia Python định lượng** – nhiều năm kinh nghiệm trong FinTech.  
+✅ Hướng dẫn bởi **chuyên gia Python trong ngành tài chính** – nhiều năm kinh nghiệm trong FinTech.  
 ✅ Cung cấp **bộ dữ liệu, notebook và video trọn đời**.  
 ✅ Dễ học – kể cả cho người **chưa biết lập trình**.
 

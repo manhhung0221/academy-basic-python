@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://fin68.vn/academy/python/basic/</loc>
+<<<<<<< HEAD
          <lastmod>2025-10-28</lastmod>
     </url>
     <url>
@@ -11,5 +12,16 @@
     <url>
          <loc>https://fin68.vn/academy/python/basic/syllabus/</loc>
          <lastmod>2025-10-28</lastmod>
+=======
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://fin68.vn/academy/python/basic/faq/</loc>
+         <lastmod>2025-10-27</lastmod>
+    </url>
+    <url>
+         <loc>https://fin68.vn/academy/python/basic/syllabus/</loc>
+         <lastmod>2025-10-27</lastmod>
+>>>>>>> d6f83e78db2ad635ff66acbb3149c27718b4ab08
     </url>
 </urlset>
