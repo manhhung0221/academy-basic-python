@@ -1,0 +1,22 @@
+/* Giới hạn độ rộng bảng tham số và cho phép scroll ngang mượt */
+.md-typeset table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Code block wrap hợp lý (tránh tràn màn hình nhỏ) */
+.md-typeset pre code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Nút copy code nổi bật hơn một chút */
+.md-clipboard {
+  opacity: .9;
+}
+
+/* Breadcrumb / heading spacing gọn hơn */
+.md-content__button {
+  margin-top: .2rem;
+}

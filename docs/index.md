@@ -139,8 +139,8 @@ Sau khóa học, học viên sẽ có khả năng:
 
 ## 💸 Học phí & Ưu đãi
 
-* **Học phí gốc:** 2.500.000 VND
-* **Ưu đãi đăng ký sớm:** -30% (trước ngày khai giảng)
+* **Học phí gốc:** 3.000.000 VND
+* **Ưu đãi đăng ký sớm:** -30% (trước 15 ngày khai giảng)
 * **Sinh viên & học viên Fin68:** -10%
 
 <div align="center">
